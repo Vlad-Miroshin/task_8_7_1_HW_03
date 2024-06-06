@@ -17,63 +17,70 @@
     <main class="main">
         <div class="parameters__box">
             <h2>Укажите границы игры</h2>
-            <form>
-                <div class="input__box">
-                    <input name="auth_cert_sn" type="text" size="10" required="">
-                    <label>Минимальное значение</label>
-                </div>
-                <div class="input__box">
-                    <input name="user_name" type="text" size="40" required="" value="">
-                    <label>Максимальное значение</label>
-                </div>
+            <div class="input__box">
+                <input name="auth_cert_sn" type="text" size="10" required="">
+                <label>Минимальное значение</label>
+            </div>
+            <div class="input__box">
+                <input name="user_name" type="text" size="10" required="">
+                <label>Максимальное значение</label>
+            </div>
 
-                <a href="#">
-                    Старт
-                </a>
-            </form>
+            <a href="#" class="button">
+                Старт
+            </a>
         </div>
 
         <div class="parameters__box">
-            <form>
-                <p>
-                    Загадайте число от 0 до 100, и я обещаю угадать его за минимальное количество попыток.
-                </p>
-                <a href="#">
+            <p>
+                Вы указали слишком большой диапазон (-99999, 999999), этак мы будем играть слишком долго. Предлагаю вариант проще.
+            </p>
+            <p>
+                Загадайте число от 0 до 100, и я обещаю угадать его за минимальное количество попыток.
+            </p>
+            <div class="button__container">
+                <a href="#" class="button">
                     Играть
                 </a>
-            </form>
+                <a href="#" class="button__restart">
+                    Заново
+                </a>
+            </div>
+
         </div>    
 
         <div class="parameters__box">
-            <form>
-                <p>
-                    Вы загадали число 56 ?
-                </p>
-                <a href="#">
+            <div class="answer__container">
+                <div class="answer__number">
+                    56
+                </div>
+                <div class="answer__text">
+                    Вы загадали число "пятьдесят шесть" ?
+                </div>
+            </div>
+            <div class="button__container">
+                <a href="#" class="button">
                     Больше
                 </a>
-                <a href="#">
+                <a href="#" class="button">
                     Меньше
                 </a>
-                <a href="#">
+                <a href="#" class="button">
                     Верно!
                 </a>
-                <br>
-                <a href="#">
-                    Заново
+                <a href="#" class="button__restart">
+                    Играть заново
                 </a>
-            </form>
+            </div>
         </div> 
         
         <div class="parameters__box">
-            <form>
-                <p>
-                    Я всегда отгадываю!
-                </p>
-                <a href="#">
-                    Играть ещё раз
-                </a>
-            </form>
+            <p>
+                Я всегда отгадываю!
+            </p>
+            <a href="#" class="button">
+                Играть ещё раз
+            </a>
         </div>          
 
     </main>
