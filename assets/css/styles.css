@@ -148,6 +148,7 @@ input:-webkit-autofill:focus {
 }
 
 .button__restart {
+    display: inline-block;
     color: var(--main-color-gray);
     margin-top: 2rem;
 }
