@@ -46,7 +46,7 @@ export function propis(val) {
         ss = `Слишком большое число: ${sn}`;
     } 
 
-    return ss;
+    return ss.trimEnd();
 }
 
 function _substr(s, pos, len) {

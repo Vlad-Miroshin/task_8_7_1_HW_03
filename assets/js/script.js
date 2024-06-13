@@ -5,15 +5,22 @@ let current_page_name = 'intro';
 const page_intro = document.querySelector('#page_intro');
 const page_start = document.querySelector('#page_start');
 const page_action = document.querySelector('#page_action');
-const page_final = document.querySelector('#page_final');
+const page_final = document.querySelector('#page_finish');
 
 const input_min_val = document.querySelector('#input_min_val');
 const input_max_val = document.querySelector('#input_max_val');
 
 const start_message = document.querySelector('#start_message');
 
+const answer_value = document.querySelector('#answer_value');
+const answer_text = document.querySelector('#answer_text');
+const finish_text = document.querySelector('#finish_text');
+
+
 let min_val = 0;
 let max_val = 100;
+let current_val = 0;
+let final_text;
 
 const pages = [
     page_intro,
@@ -22,33 +29,20 @@ const pages = [
     page_final
 ];
 
-const restart_1 = document.querySelector('#restart_1');
-const restart_2 = document.querySelector('#restart_2');
-const restart_3 = document.querySelector('#restart_3');
-
-[restart_1, restart_2, restart_3].forEach((btn) => {
-    btn.addEventListener('click', ()=> {
-        restart();
-    })
-})
-
-document.querySelector('#start_button').addEventListener('click', ()=> {
-    start();
-});
-
-document.querySelector('#action_button').addEventListener('click', ()=> {
-    set_current_page('action');
-});
-
-document.querySelector('#action_button').addEventListener('click', ()=> {
-    set_current_page('action');
-});
-
-document.querySelector('#success_button').addEventListener('click', ()=> {
-    set_current_page('final');
-});
-
 document.addEventListener('DOMContentLoaded', ()=> {
+    function onclick(selector, handler) {
+        document.querySelector(selector).onclick = handler;
+    }
+
+    onclick('#restart_1', () => restart());
+    onclick('#restart_2', () => restart());
+    onclick('#restart_3', () => restart());
+    onclick('#start_button', () => start());
+    onclick('#action_button', () => action());
+    onclick('#more_button', () => action_more());
+    onclick('#less_button', () => action_less());
+    onclick('#success_button', () => success());
+
     show_current_page();
 });
 
@@ -97,7 +91,7 @@ function set_current_page(name) {
 }
 
 function isIncorrect(val) {
-    return isNaN(parseInt(val));
+    return val !== '' && isNaN(parseInt(val));
 }
 
 function isTooLarge(val1, val2) {
@@ -110,6 +104,12 @@ function start() {
 
     min_val = ensureInt(raw_min, 0);
     max_val = ensureInt(raw_max, 100);
+
+    if (min_val > max_val) {
+        const tmp = min_val;
+        min_val = max_val;
+        max_val = tmp;
+    }
 
     let txt_warning = null;
 
@@ -132,7 +132,7 @@ function start() {
 
 function set_msg_warning(txt) {
     if (txt) {
-        start_warning.innerHTML = txt;
+        start_warning.innerText = txt;
         show(start_warning);
     } else {
         hide(start_warning)
@@ -140,7 +140,7 @@ function set_msg_warning(txt) {
 }
 
 function set_msg_range(txt) {
-    start_message.innerHTML = txt;
+    start_message.innerText = txt;
 }
 
 function restart() {
@@ -149,4 +149,53 @@ function restart() {
     input_min_val.value = null;
     input_max_val.value = null;
 }
+
+function get_current_val() {
+    return Math.floor((min_val + max_val) / 2);
+}
+
+function action() {
+    set_current_page('action');
+
+    update_action_view();
+}
+
+function action_more() {
+    change_current_value('more');
+}
+
+function action_less() {
+    change_current_value('less');
+}
+
+function change_current_value(direction) {
+    if (min_val === max_val) {
+        finish('Вы меня обманули, это не то число, которое вы загадали.');
+    } else {
+        if (direction === 'more') {
+            min_val = current_val + 1;
+        } else {
+            max_val = current_val - 1;
+        }
+
+        update_action_view();
+    }
+}
+
+function update_action_view() {
+    current_val = get_current_val();
+
+    answer_value.innerText = current_val.toString();
+    answer_text.innerText = propis(current_val);
+}
+
+function success() {
+    finish('Я всегда отгадываю!');
+}
+
+function finish(text) {
+    finish_text.innerText = text;
+    set_current_page('final');
+}
+
 
