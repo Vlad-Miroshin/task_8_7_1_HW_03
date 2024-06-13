@@ -15,41 +15,41 @@
     </header>
 
     <main class="main">
-        <div class="parameters__box">
+        <div class="parameters__box" id="page_intro">
             <h2>Укажите границы игры</h2>
             <div class="input__box">
-                <input name="auth_cert_sn" type="text" size="10" required="">
+                <input id="input_min_val" type="text" size="10" required="">
                 <label>Минимальное значение</label>
             </div>
             <div class="input__box">
-                <input name="user_name" type="text" size="10" required="">
+                <input id="input_max_val"  type="text" size="10" required="">
                 <label>Максимальное значение</label>
             </div>
 
-            <a href="#" class="button">
+            <a href="#" class="button" id="start_button">
                 Старт
             </a>
         </div>
 
-        <div class="parameters__box">
-            <p>
+        <div class="parameters__box" id="page_start">
+            <p id="start_warning">
                 Вы указали слишком большой диапазон (-99999, 999999), этак мы будем играть слишком долго. Предлагаю вариант проще.
             </p>
-            <p>
+            <p id="start_message">
                 Загадайте число от 0 до 100, и я обещаю угадать его за минимальное количество попыток.
             </p>
             <div class="button__container">
-                <a href="#" class="button">
+                <a href="#" class="button" id="action_button">
                     Играть
                 </a>
-                <a href="#" class="button__restart">
+                <a href="#" class="button__restart" id="restart_1">
                     Заново
                 </a>
             </div>
 
         </div>    
 
-        <div class="parameters__box">
+        <div class="parameters__box" id="page_action">
             <div class="answer__container">
                 <div class="answer__number">
                     56
@@ -65,20 +65,20 @@
                 <a href="#" class="button">
                     Меньше
                 </a>
-                <a href="#" class="button">
+                <a href="#" class="button" id="success_button">
                     Верно!
                 </a>
-                <a href="#" class="button__restart">
+                <a href="#" class="button__restart" id="restart_2">
                     Играть заново
                 </a>
             </div>
         </div> 
         
-        <div class="parameters__box">
+        <div class="parameters__box" id="page_final">
             <p>
                 Я всегда отгадываю!
             </p>
-            <a href="#" class="button">
+            <a href="#" class="button" id="restart_3">
                 Играть ещё раз
             </a>
         </div>          
@@ -90,6 +90,6 @@
             &copy;&nbsp;<a href="https://github.com/Vlad-Miroshin">Владислав Мирошин</a>, 2024. Поток PHPPRO_22 <a href="https://skillfactory.ru/">Skillfactory</a>.
         </div>
     </footer>
-    <script src="script.js"></script>
+    <script type="module" src="./assets/js/script.js"></script>
 </body>
 </html>
