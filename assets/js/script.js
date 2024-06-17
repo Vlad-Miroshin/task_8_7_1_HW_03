@@ -221,8 +221,6 @@ function action_less() {
 }
 
 function change_current_value(direction) {
-    console.log(min_val, max_val);
-
     if (min_val === max_val) {
         finish(getRandomItem(BAD_ANSWER_VARIANT));
     } else {
