@@ -1,5 +1,51 @@
 import {propis} from './propis.js';
 
+const ANSWER_INTRO_VARIANT = [
+    '', 
+    'Сделаю предположение, что', 
+    'А если предположить, что', 
+    'Продолжаем игру -', 
+    'Признавайтесь,',
+    'Ну конечно!', 
+    'А если вот так:', 
+    'Я не сдаюсь:', 
+    'Моя ставка -', 
+    'Поднажмём!', 
+    'Допустим,', 
+    'Да это легко,', 
+];
+
+const SUCCESS_VARIANT = [
+    'Я всегда отгадываю!', 
+    'Это было не сложно!', 
+    'Метод половинного деления не знает неудач!', 
+    'Я-же обещал, что отгадаю ваше число!'
+];
+
+const FIRST_ATTEMPT_VARIANT = [
+    'С первого раза и в яблочко!', 
+    'Это я и называю везением!', 
+    'Быстрая победа!'
+];
+    
+const INCORRECT_RANGE_VARIANT = [
+    'Могу предложить другой вариант.', 
+    'Границы игры должны быть числами.', 
+    'Давайте я придумаю диапазон сам.'
+];
+    
+const TOO_LARGE_VARIANT = [
+    'Этак мы будем играть слишком долго. Предлагаю вариант проще.', 
+    'Предлагаю другой диапазон. Так игра станет динамичнее.', 
+    'Разве у вас есть столько свободного времени? Давайте поступим иначе.'
+];
+
+const BAD_ANSWER_VARIANT = [
+    'Вы меня обманули, это не то число, которое вы загадали.', 
+    'Возможно, вы где-то ответили неправильно, поэтому я не смог угадать загаданное число.', 
+    'Вздор! Вы давали неверные ответы.', 
+];
+
 let current_page_name = 'intro';
 
 const page_intro = document.querySelector('#page_intro');
@@ -12,6 +58,7 @@ const input_max_val = document.querySelector('#input_max_val');
 
 const start_message = document.querySelector('#start_message');
 
+const answer_intro = document.querySelector('#answer_intro');
 const answer_value = document.querySelector('#answer_value');
 const answer_text = document.querySelector('#answer_text');
 const finish_text = document.querySelector('#finish_text');
@@ -20,7 +67,7 @@ const finish_text = document.querySelector('#finish_text');
 let min_val = 0;
 let max_val = 100;
 let current_val = 0;
-let final_text;
+let attempt_number = 0;
 
 const pages = [
     page_intro,
@@ -53,6 +100,10 @@ function ensureInt(val, def) {
     }
 
     return v;
+}
+
+function getRandomItem(items) {
+    return items[Math.round(Math.random() * items.length)];
 }
 
 function get_page(page_name) {
@@ -95,7 +146,7 @@ function isIncorrect(val) {
 }
 
 function isTooLarge(val1, val2) {
-    return Math.abs(val2 - val1) > 10000;
+    return Math.abs(val2 - val1) > 999 * 2;
 }
 
 function start() {
@@ -114,9 +165,9 @@ function start() {
     let txt_warning = null;
 
     if (isIncorrect(raw_min) || isIncorrect(raw_max)) {
-        txt_warning = `Вы указали некорректный диапазон ("${raw_min}", "${raw_max}"). Могу предложить другой вариант.`;
+        txt_warning = `Вы указали некорректный диапазон ("${raw_min}", "${raw_max}").` + getRandomItem(INCORRECT_RANGE_VARIANT);
     } else if (isTooLarge(min_val, max_val)) {
-        txt_warning = `Вы указали слишком большой диапазон (${raw_min}, ${raw_max}), этак мы будем играть слишком долго. Предлагаю вариант проще.`;
+        txt_warning = `Вы указали слишком большой диапазон (${raw_min}, ${raw_max}).` + getRandomItem(TOO_LARGE_VARIANT);
 
         min_val = 0;
         max_val = 100;
@@ -148,6 +199,7 @@ function restart() {
 
     input_min_val.value = null;
     input_max_val.value = null;
+    attempt_number = 0;
 }
 
 function get_current_val() {
@@ -169,13 +221,22 @@ function action_less() {
 }
 
 function change_current_value(direction) {
+    console.log(min_val, max_val);
+
     if (min_val === max_val) {
-        finish('Вы меня обманули, это не то число, которое вы загадали.');
+        finish(getRandomItem(BAD_ANSWER_VARIANT));
     } else {
         if (direction === 'more') {
             min_val = current_val + 1;
+
+            if (min_val > max_val)
+                max_val = max_val;
+
         } else {
             max_val = current_val - 1;
+
+            if (max_val < min_val)
+                max_val = min_val;
         }
 
         update_action_view();
@@ -184,13 +245,22 @@ function change_current_value(direction) {
 
 function update_action_view() {
     current_val = get_current_val();
+    attempt_number++;
 
+    answer_intro.innerText = getRandomItem(ANSWER_INTRO_VARIANT);
     answer_value.innerText = current_val.toString();
     answer_text.innerText = propis(current_val);
 }
 
 function success() {
-    finish('Я всегда отгадываю!');
+    let text = '';
+    if (attempt_number === 1) {
+        text = getRandomItem(FIRST_ATTEMPT_VARIANT)
+    } else {
+        text = getRandomItem(SUCCESS_VARIANT)
+    }
+
+    finish(text);
 }
 
 function finish(text) {

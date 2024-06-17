@@ -85,7 +85,7 @@ input:-webkit-autofill:focus {
 
 .parameters__box .input__box label {
     position: absolute;
-    top:0;
+    top: 0;
     left: 0;
     padding: 10px 0;
     pointer-events: none;
