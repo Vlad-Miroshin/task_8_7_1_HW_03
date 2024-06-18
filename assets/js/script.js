@@ -103,7 +103,11 @@ function ensureInt(val, def) {
 }
 
 function getRandomItem(items) {
-    return items[Math.round(Math.random() * items.length)];
+    let idx = Math.round(Math.random() * items.length);
+    if (idx > items.length - 1)
+        idx = items.length - 1;
+    
+    return items[idx];
 }
 
 function get_page(page_name) {
